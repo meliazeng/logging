@@ -1,0 +1,9 @@
+debug: true
+balabit:
+  endpointAddress: http://test.com
+  tag: test
+  impersonateHostname: test
+  caCert: adobeddcedfldjfdlkfjdljfldkfjldkjfldkjfdlkfjdkfjdlkjfsldffalsdfa
+  serverName: testserver
+  skipSSLVerify: true
+  useTLS: false
