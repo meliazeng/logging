@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cap-logging
+  labels:
+    app: cap-logging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cap-logging
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: cap-logging
+    spec:
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+      containers:
+      #- name: test-container
+      #  image: nicolaka/netshoot
+      #  securityContext:
+      #    runAsUser: 0
+      #    allowPrivilegeEscalation: true
+      - name: cap-logging
+        image: testlogger:1.0.6
+        imagePullPolicy: Never
+        env:
+        - name: appName
+          value: cap-logging
+        - name: appVersion
+          value: 1.0.6
+        - name: SUB_ID
+          value: testsubscriptionid
+        - name: CONFIGURATION_FILE_PATH
+          value: /etc/test2.yaml
+        - name: KEY_FILE
+          value: /etc/testuserKeyfile.json
+        ports:
+          - name: metrics
+            containerPort: 8080
+            protocol: TCP
